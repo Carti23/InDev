@@ -5,15 +5,16 @@ from .models import Wallet, CryptoUser, UserPosition, StakingPool, PoolCondition
 class WalletSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wallet
-        fields = ('owner', 'balance')
+        fields = '__all__'
 
 
 class CryptoUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CryptoUser
-        fields = ('id', 'user', 'wallet_address', 'balance')
+        fields = ('id', 'user', 'wallet_address')
 
     def validate_walletaddress(self, wallet_address):
+        # Validate that the wallet_address is not negative
         if wallet_address < 0:
             raise serializers.ValidationError(
                 "wallet_address cannot be negative")
@@ -26,6 +27,7 @@ class UserPositionSerializer(serializers.ModelSerializer):
         fields = ('id', 'owner', 'coin_symbol', 'amount')
 
     def validate_amount(self, amount):
+        # Validate that the amount is not negative
         if amount < 0:
             raise serializers.ValidationError("Amount cannot be negative")
         return amount
@@ -36,26 +38,8 @@ class StakingPoolSerializer(serializers.ModelSerializer):
         model = StakingPool
         fields = ('id', 'name', 'description', 'participants')
 
-    def validate_participants(self, participants):
-        if participants < 0:
-            raise serializers.ValidationError(
-                "Participants cannot be negative")
-        return participants
-
 
 class PoolConditionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = PoolConditions
         fields = ('id', 'staking_pool', 'min_stake', 'annual_interest_rate')
-
-    def validate_min_stake(self, min_stake):
-        if min_stake < 0:
-            raise serializers.ValidationError(
-                "Minimum stake cannot be negative")
-        return min_stake
-
-    def validate_annual_interest_rate(self, annual_interest_rate):
-        if annual_interest_rate < 0:
-            raise serializers.ValidationError(
-                "Annual interest rate cannot be negative")
-        return annual_interest_rate

@@ -5,13 +5,16 @@ from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
+# Serializer for user registration
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         required=True,
-        validators=[UniqueValidator(queryset=User.objects.all())])
+        validators=[UniqueValidator(queryset=User.objects.all())]
+    )
 
     password1 = serializers.CharField(
-        write_only=True, required=True, validators=[validate_password])
+        write_only=True, required=True, validators=[validate_password]
+    )
 
     password2 = serializers.CharField(write_only=True, required=True)
 
@@ -19,7 +22,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             'id', 'username', 'password1', 'password2', 'email', 'first_name',
-            'last_name')
+            'last_name'
+        )
 
         extra_kwargs = {
             'first_name': {'required': False},
@@ -29,7 +33,8 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if attrs['password1'] != attrs['password2']:
             raise serializers.ValidationError(
-                {'password1': "password field dont match !"})
+                {'password1': "Password fields do not match!"}
+            )
 
         return attrs
 
@@ -45,7 +50,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-
+# Custom TokenObtainPairSerializer to include extra user data in tokens
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):

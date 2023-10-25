@@ -5,11 +5,10 @@ from django.contrib.auth.models import User
 class CryptoUser(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     wallet_address = models.CharField(max_length=255)
-    balance = models.DecimalField(max_digits=20, decimal_places=6)
+
 
 class Wallet(models.Model):
     owner = models.OneToOneField(CryptoUser, on_delete=models.CASCADE)
-    balance = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
         return f"Wallet of {self.owner.user.username}"

@@ -10,18 +10,20 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
 
+# Custom view for obtaining token pair
 class MyObtainTokenPairView(TokenObtainPairView):
-    permission_classes = (AllowAny,)
+    permission_classes = (AllowAny,)  # Allow any user to obtain tokens
     serializer_class = MyTokenObtainPairSerializer
 
-
+# User registration view
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
-    permission_classes = (AllowAny,)
+    permission_classes = (AllowAny,)  # Allow any user to register
     serializer_class = RegisterSerializer
 
+# Logout view for invalidating refresh tokens
 class LogoutView(APIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)  # Only authenticated users can log out
 
     def post(self, request):
         refresh_token = request.data.get('refresh_token')
@@ -31,8 +33,7 @@ class LogoutView(APIView):
 
         try:
             refresh_token = RefreshToken(refresh_token)
-            refresh_token.blacklist()
+            refresh_token.blacklist()  # Blacklist the refresh token
             return Response({'message': 'You have been logged out successfully.'}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': 'Invalid refresh token.'}, status=status.HTTP_400_BAD_REQUEST)
-        
