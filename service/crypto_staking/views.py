@@ -1,11 +1,12 @@
 from rest_framework import viewsets
 from .models import Wallet, CryptoUser, UserPosition, StakingPool, PoolConditions
-from .permissions import IsOwnerOrReadOnly, IsOwnerOrReadOnlyWallet
+from .permissions import IsOwnerOrReadOnly
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from web3 import Web3
 from rest_framework import status
+from rest_framework import filters
 import os
 from .serializers import WalletSerializer, CryptoUserSerializer, UserPositionSerializer, StakingPoolSerializer, PoolConditionsSerializer
 
@@ -14,12 +15,16 @@ class UserPositionViewSet(viewsets.ModelViewSet):
     queryset = UserPosition.objects.all()
     serializer_class = UserPositionSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['coin_symbol']
 
 
 class CryptoUserViewSet(viewsets.ModelViewSet):
     queryset = CryptoUser.objects.all()
     serializer_class = CryptoUserSerializer
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['wallet_address']
 
 
 class WalletViewSet(viewsets.ModelViewSet):
@@ -67,9 +72,13 @@ class StakingPoolViewSet(viewsets.ModelViewSet):
     queryset = StakingPool.objects.all()
     serializer_class = StakingPoolSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
 
 
 class PoolConditionsViewSet(viewsets.ModelViewSet):
     queryset = PoolConditions.objects.all()
     serializer_class = PoolConditionsSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['min_stake', 'annual_interest_rate']

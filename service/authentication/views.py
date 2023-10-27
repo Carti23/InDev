@@ -15,15 +15,18 @@ class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)  # Allow any user to obtain tokens
     serializer_class = MyTokenObtainPairSerializer
 
+
 # User registration view
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)  # Allow any user to register
     serializer_class = RegisterSerializer
 
+
 # Logout view for invalidating refresh tokens
 class LogoutView(APIView):
-    permission_classes = (IsAuthenticated,)  # Only authenticated users can log out
+    # Only authenticated users can log out
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         refresh_token = request.data.get('refresh_token')

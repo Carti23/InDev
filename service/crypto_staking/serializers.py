@@ -38,8 +38,32 @@ class StakingPoolSerializer(serializers.ModelSerializer):
         model = StakingPool
         fields = ('id', 'name', 'description', 'participants')
 
+    def validate_name(self, value):
+        # Add your custom validation logic for the 'name' field here
+        # For example, you can check if the name meets certain criteria
+        if len(value) < 2:
+            raise serializers.ValidationError(
+                "Name should be at least 2 characters long.")
+        return value
+
 
 class PoolConditionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = PoolConditions
         fields = ('id', 'staking_pool', 'min_stake', 'annual_interest_rate')
+
+    def validate_min_stake(self, value):
+        # Add your custom validation logic for the 'min_stake' field here
+        # For example, you can check if the minimum stake is a positive value
+        if value <= 0:
+            raise serializers.ValidationError(
+                "Minimum stake should be a positive value.")
+        return value
+
+    def validate_annual_interest_rate(self, value):
+        # Add your custom validation logic for the 'annual_interest_rate' field here
+        # For example, you can check if the annual interest rate is within a valid range
+        if value < 0 or value > 100:
+            raise serializers.ValidationError(
+                "Annual interest rate should be between 0 and 100.")
+        return value

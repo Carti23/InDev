@@ -28,12 +28,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third party apps
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'rest_framework_swagger',
 
-    # My app
-    # "staking_app",
+    # My apps
     'authentication',
     'crypto_staking',
 

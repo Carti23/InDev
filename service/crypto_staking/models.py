@@ -6,12 +6,16 @@ class CryptoUser(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     wallet_address = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.user.username
+
 
 class Wallet(models.Model):
     owner = models.OneToOneField(CryptoUser, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Wallet of {self.owner.user.username}"
+
 
 class UserPosition(models.Model):
     owner = models.ForeignKey(CryptoUser, on_delete=models.CASCADE)
@@ -21,13 +25,16 @@ class UserPosition(models.Model):
     def __str__(self):
         return f"{self.owner.user.username}'s position in {self.coin_symbol}"
 
+
 class StakingPool(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    participants = models.ManyToManyField(CryptoUser, related_name='staking_pools', blank=True)
+    participants = models.ManyToManyField(
+        CryptoUser, related_name='staking_pools', blank=True)
 
     def __str__(self):
         return self.name
+
 
 class PoolConditions(models.Model):
     staking_pool = models.ForeignKey(StakingPool, on_delete=models.CASCADE)
