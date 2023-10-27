@@ -20,7 +20,6 @@ Instructions for setting up and using your project locally.
 - Python 3.9 or later
 - Docker (optional, for containerization)
 - Postgres
-- Redis
 
 ### Installation
 
