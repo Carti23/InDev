@@ -27,8 +27,8 @@ Instructions for setting up and using your project locally.
 1. Clone this repository to your local machine:
 
     ```bash
-    https://github.com/Carti23/wht_testove.git
-    cd wht_testove
+    https://github.com/Carti23/InDev.git
+    cd InDev
     ```
 
 
