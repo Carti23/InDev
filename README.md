@@ -30,11 +30,6 @@ Instructions for setting up and using your project locally.
     cd InDev
     ```
 
-
-## Usage
-
-Explain how to use your project and interact with the AI assistant.
-
 ### Running with Docker
 
 1. Build the Docker image from the project directory:
