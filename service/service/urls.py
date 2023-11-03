@@ -7,7 +7,7 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Your API Title",
+        title="Crypto",
         default_version='v1',
         description="Your API description",
         terms_of_service="https://www.example.com/terms/",
