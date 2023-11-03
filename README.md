@@ -46,7 +46,7 @@ Instructions for setting up and using your project locally.
 3. Make Migrations
 
    ```bash
-     docker-compose run --rm server sh -c "python manage.py makemigrations"
+     docker-compose run --rm web-app sh -c "python manage.py makemigrations"
     ```
 
 
